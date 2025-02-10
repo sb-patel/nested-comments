@@ -17,12 +17,12 @@ function App() {
   }
 
   const handleNewComment = (e) => {
-    if(input){
+    if (input) {
       setComments([...comments, newComment(input)]);
       setInput('');
     }
   }
-  
+
   const addReply = () => {
 
   }
@@ -35,16 +35,25 @@ function App() {
         {
           id: 2,
           display: "First Child Comment",
+          children: [],
         },
         {
           id: 3,
           display: "Second Child Comment",
+          children: [
+            {
+              id: 5,
+              display: "First child of Second Parent Comment",
+              children: [],
+            }
+          ],
         }
       ],
     },
     {
       id: 4,
-      display: "First Parent Comment",
+      display: "Second Parent Comment",
+      children: [],
     }
   ]);
 
@@ -73,7 +82,7 @@ function App() {
       <div className='comments'>
         {
           comments.map((item) => (
-            <Comments key={item.id} comment={item} addReply={addReply}  />
+            <Comments key={item.id} comment={item} addReply={addReply} />
           ))
         }
       </div>
