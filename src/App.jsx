@@ -23,8 +23,13 @@ function App() {
     }
   }
 
-  const addReply = () => {
+  const addReply = (parentId, text) => {
+    const copyComments = [...comments];
+    addComments(copyComments, parentId, text);
+  }
 
+  const addComments = (comments, parentId, text) => {
+    // add logic
   }
 
   const [comments, setComments] = useState([
