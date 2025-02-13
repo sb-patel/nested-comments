@@ -1,15 +1,17 @@
 import React, { useRef, useState } from "react"
 
-const Comments = ({comment, addReply}) => {
+const Comments = ({ comment, addReply }) => {
   const [showReplyBox, setShowReplyBox] = useState(false);
   const [replyText, setReplyText] = useState('');
   const inputRef = useRef(null);
+
   const handleReply = () => {
     setShowReplyBox(true);
     setTimeout(() => {
       inputRef.current.focus();
-    },1);
+    }, 1);
   }
+  
   const handleCancleButton = () => {
     setShowReplyBox(false);
     setReplyText('');
@@ -21,55 +23,56 @@ const Comments = ({comment, addReply}) => {
   }
 
   const handleKeyDown = (e, commemntId) => {
-    if(e.key === 'Enter'){
+    if (e.key === 'Enter') {
       handleReplySave(commemntId);
     }
-    else if(e.key === 'Escape'){
+    else if (e.key === 'Escape') {
       handleCancleButton();
     }
   }
 
 
-  return (  
+  return (
     <li className="comment-line">
-        {comment.display}
-        {
-          !showReplyBox && (
-            <button
-              className="btn"
-              onClick={handleReply}
-            >
-              Reply
-            </button>
-          )
-        }
-        {
-          showReplyBox ? (
-            <div>
-              <br />
-              <input
-                value={replyText} 
-                type="text" 
-                ref={inputRef} 
-                onChange={(e) => setReplyText(e.target.value)}
-                onKeyDown={(e) => handleKeyDown(e, comment.id)}
-              />
-              <br />
-              <button className="btn" onClick={handleCancleButton}>Cancle</button>
-            </div>
-          ) : null
-        }
-        {
-          comment.children.length ? (
-            <ul>
-              {
-                comment.children.map((item) => (
-                  <Comments key={item.id} comment={item} addReply={addReply} />
-                ))
-              }
-            </ul>
-          ) : null
-        }
+      {comment.display}
+      {
+        !showReplyBox && (
+          <button
+            className="btn"
+            onClick={handleReply}
+          >
+            Reply
+          </button>
+        )
+      }
+      {
+        showReplyBox ? (
+          <div>
+            <br />
+            <input
+              value={replyText}
+              type="text"
+              ref={inputRef}
+              onChange={(e) => setReplyText(e.target.value)}
+              onKeyDown={(e) => handleKeyDown(e, comment.id)}
+            />
+            <br />
+            <button className="btn" onClick={() => handleReplySave(comment.id)}>Save</button>
+            <button className="btn" onClick={handleCancleButton}>Cancle</button>
+          </div>
+        ) : null
+      }
+      {
+        comment.children.length ? (
+          <ul>
+            {
+              comment.children.map((item) => (
+                <Comments key={item.id} comment={item} addReply={addReply} />
+              ))
+            }
+          </ul>
+        ) : null
+      }
     </li>
   )
 };

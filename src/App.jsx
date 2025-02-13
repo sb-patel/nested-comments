@@ -29,7 +29,15 @@ function App() {
   }
 
   const addComments = (comments, parentId, text) => {
-    // add logic
+    for (let i = 0; i < comments.length; i++) {
+      if (comments[i].id === parentId) {
+        comments[i].children.unshift(newComment(text));
+      }
+    }
+
+    for (let i = 0; i < comments.length; i++) {
+      addComments(comments[i].children, parentId, text);
+    }
   }
 
   const [comments, setComments] = useState([
@@ -85,11 +93,13 @@ function App() {
 
       {/*Nested Comments*/}
       <div className='comments'>
-        {
-          comments.map((item) => (
-            <Comments key={item.id} comment={item} addReply={addReply} />
-          ))
-        }
+        <ul>
+          {
+            comments.map((item) => (
+              <Comments key={item.id} comment={item} addReply={addReply} />
+            ))
+          }
+        </ul>
       </div>
     </>
   )
